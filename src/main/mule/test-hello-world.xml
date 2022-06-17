@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tracing="http://www.mulesoft.org/schema/mule/tracing" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/tracing http://www.mulesoft.org/schema/mule/tracing/current/mule-tracing.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="2a1659af-ecb1-468f-a675-40d7207e8869" >
+		<http:listener-connection host="0.0.0.0" port="9001" />
+	</http:listener-config>
+	<flow name="test-hello-worldFlow" doc:id="b92dfd75-260f-4abf-995f-ba192b4bd626" >
+		<http:listener doc:name="Listener" doc:id="6341f1f1-aa84-46bc-8eb4-5cd676477a8c" config-ref="HTTP_Listener_config" path="/test-hello-world"/>
+		<set-payload value='"Hello Hemsagar"' doc:name="Set Payload" doc:id="c30ff8ac-2368-411c-8743-f2ac6aabe731" />
+		<logger level="INFO" doc:name="Logger" doc:id="560e9510-72e6-4499-afe4-91f04d6231aa" message="#[payload]"/>
+		<set-variable value="#[payload]" doc:name="Set Variable" doc:id="8cef82ca-3970-412c-9c3f-6c99ba6dbb32" variableName="v2"/>
+		<tracing:set-logging-variable doc:name="Set logging variable" doc:id="8b70ce85-660e-4f96-bda0-d6a53ce3d72e" variableName="v1" value='"hemsagar dora"'/>
+		<logger level="INFO" doc:name="Logger" doc:id="3348ddcf-fdb6-43b1-ad5f-167deeed9686" message="#[vars.v1]"/>
+		<tracing:remove-logging-variable doc:id="b25210ee-696f-4ee8-90cf-acc067817c3b" variableName="v1"/>
+		<logger level="INFO" doc:name="Logger" doc:id="c1f06e75-1579-421b-8f64-0e4ced19bacf" message="#[vars.v2]"/>
+	</flow>
+</mule>
